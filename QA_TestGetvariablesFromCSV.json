@@ -1,0 +1,360 @@
+{
+	"info": {
+		"_postman_id": "7c2c498a-4a9b-4c1f-b672-f13465cfb4a7",
+		"name": "QA Test https://api.mail.tm/ | Get variables from CSV file",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "createAccount",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(!pm.response.to.have.status(201) && !pm.response.to.have.status(200)){\r",
+							"    postman.setNextRequest(null)\r",
+							"} else {\r",
+							"\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set(\"id\", jsonData.id);\r",
+							"\r",
+							"pm.test(\"Test data type of the response\", () => {\r",
+							"  pm.expect(jsonData.id).to.be.an(\"string\");\r",
+							"\r",
+							"  pm.expect(jsonData.address).to.be.an(\"string\");\r",
+							"  // pm.expect(jsonData.website).to.be.undefined;\r",
+							"  //pm.expect(jsonData.email).to.be.null;\r",
+							"});\r",
+							"\r",
+							"    pm.test(\"Status code is 201\", function () {\r",
+							"        pm.response.to.have.status(201);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"    pm.test(\"Response time is less than 201ms\", function () {\r",
+							"        pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"console.log(\"id value =\" + pm.collectionVariables.get(\"id\"));\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"//  console.log(\"мой email = \" + pm.collectionVariables.get(\"email\"));\r",
+							"\r",
+							"// const password = pm.variables.replaceIn(\"{{$randomPassword}}!Bd\").toLowerCase();\r",
+							"//  pm.collectionVariables.set(\"password\",password);\r",
+							"//  console.log(\"мой password = \" + pm.collectionVariables.get(\"password\"));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.mail.tm/accounts",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mail",
+						"tm"
+					],
+					"path": [
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(!pm.response.to.have.status(200)){\r",
+							"    postman.setNextRequest(null)\r",
+							"} else {\r",
+							"\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Test data type of the response\", () => {\r",
+							"  pm.expect(jsonData.id).to.be.an(\"string\");\r",
+							"  pm.expect(jsonData.token).to.be.a(\"string\");\r",
+							"  //pm.expect(jsonData.age).to.be.a(\"number\");\r",
+							"  //pm.expect(jsonData.hobbies).to.be.an(\"array\");\r",
+							"  pm.expect(jsonData.token).not.to.be.undefined;\r",
+							"  //pm.expect(jsonData.email).to.be.null;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Successful POST request\", () => {\r",
+							"  pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 201ms\", function () {\r",
+							"        pm.expect(pm.response.responseTime).to.be.below(201);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"pm.collectionVariables.set(\"token\", jsonData.token);\r",
+							"\r",
+							"pm.collectionVariables.get(\"token\");\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.mail.tm/token",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mail",
+						"tm"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getMessages",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(!pm.response.to.have.status(200)){\r",
+							"    postman.setNextRequest(null)\r",
+							"} else {\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"// pm.test(\"Test data type of the response\", () => {\r",
+							"//  pm.expect(jsonData.token).not.to.be.undefined;\r",
+							"// });\r",
+							"\r",
+							"\r",
+							" pm.test(\"Successful GET request\", () => {\r",
+							"  pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 201ms\", function () {\r",
+							"        pm.expect(pm.response.responseTime).to.be.below(201);\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.mail.tm/messages",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mail",
+						"tm"
+					],
+					"path": [
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteAccount",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(!pm.response.to.have.status(204)){\r",
+							"    postman.setNextRequest(null)\r",
+							"} else {\r",
+							"\r",
+							"pm.test(\"Status code is 204\", function () {\r",
+							"        pm.response.to.have.status(204);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"    pm.test(\"Response time is less than 201ms\", function () {\r",
+							"        pm.expect(pm.response.responseTime).to.be.below(300);\r",
+							"    });\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://api.mail.tm/accounts/{{id}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mail",
+						"tm"
+					],
+					"path": [
+						"accounts",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assertDeletedToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if(!pm.response.to.have.status(401)){\r",
+							"    postman.setNextRequest(null)\r",
+							"} else {\r",
+							"\r",
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Test data type of the response\", () => {\r",
+							"  pm.expect(jsonData.message).to.be.an(\"string\");\r",
+							"  });\r",
+							"\r",
+							"pm.test(\"Status code is 401\", () => {\r",
+							"  pm.response.to.have.status(401);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 201ms\", function () {\r",
+							"        pm.expect(pm.response.responseTime).to.be.below(201);\r",
+							"    });\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.mail.tm/token",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mail",
+						"tm"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		}
+	]
+}
