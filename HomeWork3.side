@@ -546,7 +546,7 @@
     }, {
       "id": "a534534f-3331-41ef-a657-e455f85c29c8",
       "comment": "",
-      "command": "//store",
+      "command": "store",
       "target": "xpath=//*[@id=\"__next\"]/div[1]/main/div/section[3]/div[3]/div/div[2]/div/div/div/div[2]",
       "targets": [],
       "value": "photos"
