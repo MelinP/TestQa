@@ -1,0 +1,207 @@
+{
+	"info": {
+		"_postman_id": "b8c0bef1-f588-4f72-98e7-6e5465f36e8f",
+		"name": "QaTest https://api.mail.tm/",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://api.mail.tm/accounts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set(\"id\", jsonData.id);\r",
+							"\r",
+							"console.log(\"id value =\" + pm.collectionVariables.get(\"id\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const email = pm.variables.replaceIn(\"{{$timestamp}}!{{$randomFirstName}}@metalunits.com\").toLowerCase()\r",
+							"//console.log(\"моя const email = \" + email);\r",
+							"pm.collectionVariables.set(\"email\",email);\r",
+							"console.log(\"мой email = \" + pm.collectionVariables.get(\"email\"));\r",
+							"\r",
+							"const password = pm.variables.replaceIn(\"{{$randomPassword}}!Bd\").toLowerCase();\r",
+							"pm.collectionVariables.set(\"password\",password);\r",
+							"console.log(\"мой password = \" + pm.collectionVariables.get(\"password\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.mail.tm/accounts",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mail",
+						"tm"
+					],
+					"path": [
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.mail.tm/token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonData = pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set(\"token\", jsonData.token);\r",
+							"\r",
+							"pm.collectionVariables.get(\"token\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"address\": \"{{email}}\",\r\n  \"password\": \"{{password}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api.mail.tm/token",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mail",
+						"tm"
+					],
+					"path": [
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.mail.tm/messages",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.mail.tm/messages",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mail",
+						"tm"
+					],
+					"path": [
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://api.mail.tm/accounts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://api.mail.tm/accounts/{{id}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"mail",
+						"tm"
+					],
+					"path": [
+						"accounts",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "address",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		}
+	]
+}
