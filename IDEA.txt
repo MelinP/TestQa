@@ -1,6 +1,9 @@
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class FirstTest {
@@ -12,5 +15,32 @@ public class FirstTest {
                 "/home/sudent/Documents/IdeaProject/drivers/chromedriver");
 
         driver = new ChromeDriver();
-        driver.get("https://www.google.com/");
+
+        driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
+
+        driver.manage().window().maximize();
+
+        driver.get("https://stanok-qa.ossystem.ua/ru/login");
+        
+        By email = By.name("email");
+        String emailValue = "test@emai.com";
+        
+        By password = By.name("password");
+        String passValue = "132323";
+
+    
+        clickClearAndSendKeys(email,emailValue);
+        clickClearAndSendKeys(password,passValue);
+    
+        //driver.quit();
+    
+    }
+    
+    
+    
+    public void clickClearAndSendKeys(By locator,String value) {
+        driver.findElement(locator).click();
+        driver.findElement(locator).clear();
+        driver.findElement(locator).sendKeys(value);
+        
     }
