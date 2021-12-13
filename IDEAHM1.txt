@@ -1,0 +1,49 @@
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import java.util.concurrent.TimeUnit;
+
+
+    public class FirstTest {
+        public static WebDriver driver;
+
+        @Test
+        public void FirstHomework() {
+            System.setProperty("web-driver.chrome.driver",
+                    "/c/Users/User/IdeaProjects/HwProject/drivers/chromedriver");
+
+            driver = new ChromeDriver();
+            driver.manage().deleteAllCookies();
+            driver.manage().timeouts().implicitlyWait(2000, TimeUnit.MILLISECONDS);
+            driver.manage().window().maximize();
+            driver.get("https://stanok-qa.ossystem.ua/ru/login");
+            driver.findElement(By.xpath("//button[contains(text(),'Ок')]")).click();
+
+
+
+            By email = By.name("email");
+            String emailValue = "test@emai.com";
+
+            By password = By.name("password");
+            String passValue = "132323";
+
+            driver.findElement(email).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+            driver.findElement(password).sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+
+
+            clickAndSendKeys(email, emailValue);
+            clickAndSendKeys(password, passValue);
+
+            //driver.navigate().refresh();
+
+            //driver.quit();
+
+        }
+
+        public void clickAndSendKeys(By locator, String value) {
+            driver.findElement(locator).click();
+            driver.findElement(locator).sendKeys(value);
+        }
+    }
