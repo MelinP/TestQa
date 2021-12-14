@@ -1,0 +1,51 @@
+import org.junit.Test;
+
+public class MainClass {
+    int a = 100;
+    int b = 200;
+
+    @Test
+    public void FirstTest() {
+        int a = 1;
+        int b = 2;
+
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(this.a);
+        System.out.println(this.b);
+
+        boolean daIliNet = aBiggerThanB(5, 10);
+        System.out.println("daIliNet" + daIliNet);
+
+        daIliNet = aBiggerThanB(10, 5);
+        System.out.println("daIliNet" + daIliNet);
+
+        int result = 10 + returnNumber();
+        System.out.println(result);
+
+        typeName("Eugene");
+        
+        typeBigNumber();
+    }
+
+    public boolean aBiggerThanB(int a, int b) {
+        boolean result = a > b;
+        return result;
+    }
+
+    public int returnNumber () {
+        return 100;
+    }
+
+    public void typeName(String yourName){
+        System.out.println("Your Name: " + yourName);
+    }
+
+    public void  typeBigNumber() {
+        int bigNumber = 100 * returnNumber();
+        System.out.println("My BigNumber = " + bigNumber);
+    }
+
+
+
+}
